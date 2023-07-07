@@ -27,6 +27,8 @@ void DeviceDriver::write(long address, int data)
 {
     int value = (int)(m_hardware->read(address));
 
-    if (value == 0xff)
-		m_hardware->write(address, (unsigned char)data);
+    if (value != VALUE_OF_CLEAN_AREA)
+	    return;
+
+    m_hardware->write(address, (unsigned char)data);
 }

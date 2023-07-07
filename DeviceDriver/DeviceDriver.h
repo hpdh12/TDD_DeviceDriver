@@ -11,6 +11,7 @@ public:
     enum
     {
         COUNT_SHOULD_READ = 5,
+        VALUE_OF_CLEAN_AREA = 0xFF,
     };
 
 protected:

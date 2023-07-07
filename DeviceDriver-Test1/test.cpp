@@ -47,8 +47,7 @@ TEST_F(DeviceDriverFixture, WritetoCleanArea)
 
 	EXPECT_CALL(mockDevice, read)
 		.Times(1)
-		.WillOnce(Return(0xff));
+		.WillOnce(Return(DeviceDriver::VALUE_OF_CLEAN_AREA));
 	
 	driver->write(0x1000000, 0x12);
-
 }
