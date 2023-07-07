@@ -6,6 +6,7 @@ class DeviceDriver
 public:
     DeviceDriver(FlashMemoryDevice* hardware);
     int read(long address);
+    void assertTryToWriteToNotCleanArea(int value);
     void write(long address, int data);
 
     enum

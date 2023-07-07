@@ -28,12 +28,17 @@ int DeviceDriver::read(long address)
     return value;
 }
 
+void DeviceDriver::assertTryToWriteToNotCleanArea(int value)
+{
+	if (value != VALUE_OF_CLEAN_AREA)
+		throw WriteFailException();
+}
+
 void DeviceDriver::write(long address, int data)
 {
     int value = (int)(m_hardware->read(address));
 
-    if (value != VALUE_OF_CLEAN_AREA)
-        throw WriteFailException();
+    assertTryToWriteToNotCleanArea(value);
 
     m_hardware->write(address, (unsigned char)data);
 }
