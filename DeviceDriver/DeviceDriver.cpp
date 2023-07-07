@@ -8,6 +8,11 @@ class ReadFailException : public exception
 public:
 };
 
+class WriteFailException : public exception
+{
+public:
+};
+
 DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
 {}
 
@@ -23,8 +28,17 @@ int DeviceDriver::read(long address)
     return value;
 }
 
+void DeviceDriver::assertTryToWriteToNotCleanArea(int value)
+{
+	if (value != VALUE_OF_CLEAN_AREA)
+		throw WriteFailException();
+}
+
 void DeviceDriver::write(long address, int data)
 {
-    // TODO: implement this method
+    int value = (int)(m_hardware->read(address));
+
+    assertTryToWriteToNotCleanArea(value);
+
     m_hardware->write(address, (unsigned char)data);
 }

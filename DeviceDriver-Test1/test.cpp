@@ -39,3 +39,24 @@ TEST_F(DeviceDriverFixture, ReadExceptionWhenValueIsDiff) {
 
 	EXPECT_THROW(driver->read(0x4), ReadFailException);
 }
+
+TEST_F(DeviceDriverFixture, WritetoCleanArea)
+{
+	EXPECT_CALL(mockDevice, write)
+		.Times(1);
+
+	EXPECT_CALL(mockDevice, read)
+		.Times(1)
+		.WillOnce(Return(DeviceDriver::VALUE_OF_CLEAN_AREA));
+	
+	driver->write(0x1000000, 0x12);
+}
+
+TEST_F(DeviceDriverFixture, WritetoNotCleanArea)
+{
+	EXPECT_CALL(mockDevice, read)
+		.Times(1)
+		.WillOnce(Return(0x12));
+
+	EXPECT_THROW(driver->write(0x1000000, 0x12), WriteFailException);
+}
