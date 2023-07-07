@@ -31,3 +31,11 @@ TEST_F(DeviceDriverFixture, CheckDriverRead5Times) {
 
 	driver->read(0x4);
 }
+
+TEST_F(DeviceDriverFixture, ReadExceptionWhenValueIsDiff) {
+	EXPECT_CALL(mockDevice, read)
+		.WillOnce(Return(1))
+		.WillRepeatedly(Return(0));
+
+	EXPECT_THROW(driver->read(0x4), ReadFailException);
+}

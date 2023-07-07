@@ -1,14 +1,24 @@
+#include <stdexcept>
 #include "DeviceDriver.h"
+
+using namespace std;
+
+class ReadFailException : public exception
+{
+public:
+};
 
 DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
 {}
 
 int DeviceDriver::read(long address)
 {
-    int value;
-    for (int i = 0; i < 5; i++)
+    int value = (int)(m_hardware->read(address));
+    for (int i = 0; i < 4; i++)
     {
-        value = (int)(m_hardware->read(address));
+        if (value != (int)(m_hardware->read(address))) {
+			throw ReadFailException();
+        }
     }
     return value;
 }
