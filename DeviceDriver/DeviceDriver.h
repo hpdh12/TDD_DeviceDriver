@@ -8,6 +8,11 @@ public:
     int read(long address);
     void write(long address, int data);
 
+    enum
+    {
+        COUNT_SHOULD_READ = 5,
+    };
+
 protected:
     FlashMemoryDevice* m_hardware;
 };
