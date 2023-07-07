@@ -11,13 +11,23 @@ public:
 	MOCK_METHOD(void, write, (long address, unsigned char data), (override));
 };
 
-TEST(DeviceDriverTest, CheckDriverRead5Times) {
-	FlashMemoryDeviceMock mockDevice;
-	DeviceDriver driver(&mockDevice);
+class DeviceDriverFixture : public Test
+{
+public:
+	DeviceDriverFixture()
+	{
+		driver = new DeviceDriver(&mockDevice);
+	}
 
+	FlashMemoryDeviceMock mockDevice;
+	DeviceDriver *driver;
+
+};
+
+TEST_F(DeviceDriverFixture, CheckDriverRead5Times) {
 	EXPECT_CALL(mockDevice, read)
 		.Times(5)
 		.WillRepeatedly(Return(0));
 
-	driver.read(0x4);
+	driver->read(0x4);
 }
