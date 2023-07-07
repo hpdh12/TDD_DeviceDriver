@@ -51,3 +51,12 @@ TEST_F(DeviceDriverFixture, WritetoCleanArea)
 	
 	driver->write(0x1000000, 0x12);
 }
+
+TEST_F(DeviceDriverFixture, WritetoNotCleanArea)
+{
+	EXPECT_CALL(mockDevice, read)
+		.Times(1)
+		.WillOnce(Return(0x12));
+
+	EXPECT_THROW(driver->write(0x1000000, 0x12), WriteFailException);
+}
