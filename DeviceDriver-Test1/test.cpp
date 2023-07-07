@@ -26,7 +26,7 @@ public:
 
 TEST_F(DeviceDriverFixture, CheckDriverRead5Times) {
 	EXPECT_CALL(mockDevice, read)
-		.Times(5)
+		.Times(DeviceDriver::COUNT_SHOULD_READ)
 		.WillRepeatedly(Return(0));
 
 	driver->read(0x4);
